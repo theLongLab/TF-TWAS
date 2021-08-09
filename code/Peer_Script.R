@@ -1,0 +1,27 @@
+library(peer)
+expr = read.csv('GeneExpression_Breast_Female_ID.csv', header=FALSE)
+
+#The data matrix is assumed to have N rows and G columns, where N is the number of samples, and G is the number of genes.
+print(c("dim(expr)",dim(expr)))
+
+model = PEER()
+PEER_setPhenoMean(model,as.matrix(expr))
+print(c("dim(PEER_getPhenoMean(model)",dim(PEER_getPhenoMean(model))))
+PEER_setNk(model,30)
+PEER_getNk(model)
+covs = read.csv('Covariates_Age_PC.csv',header=FALSE)
+PEER_setCovariates(model, as.matrix(covs))
+PEER_update(model)
+factors = PEER_getX(model)
+print(c("dim(factors)",dim(factors)))
+weights = PEER_getW(model)
+print(c("dim(weights)",dim(weights)))
+precision = PEER_getAlpha(model)
+print(c("dim(precision)",dim(precision)))
+residuals = PEER_getResiduals(model)
+print(c("dim(residuals)",dim(residuals)))
+
+write.table(factors, file="GeneExpression_Breast_Female_AfterRM_Factors.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(weights, file="GeneExpression_Breast_Female_AfterRM_Weights.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(precision, file="GeneExpression_Breast_Female_AfterRM_Precisions.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(residuals, file="GeneExpression_Breast_Female_AfterRM_Residuals.csv", row.names=FALSE, col.names=FALSE,sep=",")
