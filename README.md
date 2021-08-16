@@ -17,7 +17,7 @@ According to GTEx protocol, if the number of samples is between 150 and 250, 30 
 **2)	genotype file:**  
 The whole genome sequencing file, GTEx_Analysis_2017-06-05_v8_WholeGenomeSeq_866Indiv.vcf, was downloaded from dbGaP (https://www.ncbi.nlm.nih.gov/projects/gap/cgi-bin/study.cgi?study_id=phs000424.v8.p2). The genotype dataset is quality controlled using the tool PLINK [2] (https://zzz.bwh.harvard.edu/plink/ ). Multiple QC steps were applied by excluding variants with missingness rate > 0.1, minor allele frequency < 0.01, high deviations from Hardy-Weinberg equilibrium at p<10-6, and removing samples with missingness rate > 0.1.
 
-First, we prioritized putative regulatory variants based on their associations with breast cancer risk. For variants that bind to only one TF, we used the single TF beta value, and for other variants that bind to more than one TFs, we considered the largest beta values of the paired TFs. Once we obtained the beta values for all TF-occupied elements, we ranked those variants based on the beta values from largest to smallest, which illustrated with more important to less for breast cancer risk. We then compiled six sets of putative regulatory variants by roughly including top 50K, 100K, 200K, 500K, 1M and 1.4M regulatory variants. Within the input genotype file (XXX.breast.female.no_sex.csv), it only includes regulatory variants within +/- 1M of the target gene location. The format of the genotype file looks like below: 
+We prioritized putative regulatory variants based on their associations with breast cancer risk. For variants that bind to only one TF, we used the single TF beta value, and for other variants that bind to more than one TFs, we considered the largest beta values of the paired TFs. Once we obtained the beta values for all TF-occupied elements, we ranked those variants based on the beta values from largest to smallest, which illustrated with more important to less for breast cancer risk. We then compiled six sets of putative regulatory variants by roughly including top 50K, 100K, 200K, 500K, 1M and 1.4M regulatory variants. Within the input genotype file (XXX.breast.female.no_sex.csv), it only includes regulatory variants within +/- 1M of the target gene location. The format of the genotype file looks like below: 
 
 SNP,CHR,LOC,GTEX-1117F,GTEX-1122O,GTEX-11EM3,GTEX-11EMC,GTEX-11GSP,GTEX-11I78, … …
 chr1_933303_C_T_b38,1,933303,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, … …
@@ -28,7 +28,7 @@ chr1_933741_T_TG_b38,1,933741,0,2,2,1,2,1,2,1,0,2,1,2,0,1,2,0,2,1,2,1,2,2,1,1,1,
 
 
 #### Training Elastic Net model:
-Once every input file is ready, we processed one gene at a time by executing this code:	
+For each regulatory variant set, we trained the gene-expression prediction model using an elastic-net approach. However, instead of using all flanking genetic variants (flanking ±1Mb region) to train the elastic-net model, like the regular TWAS does, we only included the putative regulatory variants in each set within flanking ±1Mb region of the target gene. For each gene, the gene expression level was regressed on the number of effect alleles (0-2) for each genetic variant with adjustment for top genotyping PCs, age, and other potential confounding factors (PEERs). Once every input file is ready, we processed one gene at a time by executing this code:	
 
 `Rscript ./code/WeightEN_Stratify_GTexv7_New.R  target_gene_id`
 
