@@ -1,7 +1,7 @@
 ## Users’ Manual of TF-TWAS
 
 ## Overview
-This directory contains how we proccessed Elastic-net training and Generalized Berk-Jones (GBJ) cross-set association test that used in the paper titled "Integrating hierarchical transcription factors (TF)-occupied elements with transcriptome-wide association analysis identifies 123 putative susceptibility genes in breast cancer".
+This directory contains how we proccessed Elastic-net training and Generalized Berk-Jones (GBJ) cross-set association test that used in the paper titled "Integrating prior knowledge of susceptible transcription factors occupied elements with transcriptome-wide association analysis identifies over 150 risk genes in breast cancer".
 
 ## Methods
 ### Elastic-Net training: 
