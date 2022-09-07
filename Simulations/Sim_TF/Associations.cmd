@@ -1,5 +1,5 @@
 "$chrom" #from 1 to 22
-Rscript /work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/sTF_TWAS.R "$chrom" 100
+Rscript sTF_TWAS.R "$chrom" 100
 
 python Combine_Sum.py 100
 Rscript WriteSQL.R 100
