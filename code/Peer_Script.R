@@ -1,5 +1,5 @@
 library(peer)
-expr = read.csv('GeneExpression_Breast_Female_ID.csv', header=FALSE)
+expr = read.csv('GeneExpression_Prostate_ID.csv', header=FALSE)
 
 #The data matrix is assumed to have N rows and G columns, where N is the number of samples, and G is the number of genes.
 print(c("dim(expr)",dim(expr)))
@@ -21,7 +21,7 @@ print(c("dim(precision)",dim(precision)))
 residuals = PEER_getResiduals(model)
 print(c("dim(residuals)",dim(residuals)))
 
-write.table(factors, file="GeneExpression_Breast_Female_AfterRM_Factors.csv", row.names=FALSE, col.names=FALSE,sep=",")
-write.table(weights, file="GeneExpression_Breast_Female_AfterRM_Weights.csv", row.names=FALSE, col.names=FALSE,sep=",")
-write.table(precision, file="GeneExpression_Breast_Female_AfterRM_Precisions.csv", row.names=FALSE, col.names=FALSE,sep=",")
-write.table(residuals, file="GeneExpression_Breast_Female_AfterRM_Residuals.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(factors, file="GeneExpression_Prostate_AfterRM_Factors.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(weights, file="GeneExpression_Prostate_AfterRM_Weights.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(precision, file="GeneExpression_Prostate_AfterRM_Precisions.csv", row.names=FALSE, col.names=FALSE,sep=",")
+write.table(residuals, file="GeneExpression_Prostate_AfterRM_Residuals.csv", row.names=FALSE, col.names=FALSE,sep=",")
