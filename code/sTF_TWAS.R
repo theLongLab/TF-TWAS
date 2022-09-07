@@ -8,29 +8,28 @@ library(dplyr)
 
 args = commandArgs(trailingOnly=TRUE)
 
-trait<-args[1]
-chrom<-args[2]
-set<-args[3]
+chrom<-args[1]
+set<-args[2]
 
-setwd("/work/long_lab/jingni/project/TF_TWAS/Brain_Disease/"%&%trait)
+setwd("/path/to/work_dir/")
 prefix<-"GTEx_Model_" %&% set
 
 
 #### I. data file preparation #### 
-snp_annot_file <- './' %&% 'SNP_Anno_' %&% set %&% '_chr' %&% chrom %&%'.txt'### need to loaded for top 50k/all_snp
-gene_annot_file <- "/work/long_lab/jingni/project/TF_TWAS/GTEx/gencode.v26.GRCh38.genes.gtf"
-genotype_file <- "/work/long_lab/jingni/project/TF_TWAS/GTEx/GTEx_maf0.01/Brain_Tissue/GTEx_v8_866Indiv_Brain.clean.chr"%&% chrom %&% ".num.csv" ## load csv file from GTEx, with the CHR,POS...
-covariance_genotype_file <-"/work/long_lab/jingni/project/TF_TWAS/GTEx/GTEx_maf0.01/GTEx_v8_866Indiv_maf0.01_tped_chr" %&% chrom %&% ".num.csv"
-expression_file <- "/work/long_lab/GROUP_DATA/Multi_Scale/Humans_Multiscale/GTEx/PEERCorrectedExpression/Brain_Cortex.v8.residuals.csv" ## gene epxression bed file
+snp_annot_file <- './path/to/SNP_Anno_' %&% set %&% '_chr' %&% chrom %&%'.txt'  ## i.e. SNP_Anno_50k_chr1.txt, seperated in comma
+gene_annot_file <- "/path/to/gencode.v26.GRCh38.genes.gtf" ## downloaded from GENCODE
+genotype_file <- "/path/to/GTEx_v8_866Indiv_maf0.01_Prostate_tped_chr"%&% chrom %&% ".num.csv" ## load tissue specific csv file from GTEx, with the CHR,LOC...
+covariance_genotype_file <-"/path/to/GTEx_v8_866Indiv_maf0.01_tped_chr" %&% chrom %&% ".num.csv" ## load non-tissue specific csv file from GTEx, with the CHR,LOC..
+expression_file <- "/path/to/Prostate.v8.normalized_expression.no_sex.rm_covariates.bed" ## gene epxression bed file, seperated in tab
 covariates_file <- "GTEx_Cov_chr"%&% chrom %&% ".txt" ## To be notice: we used all SNP to calculate covariate
-gwas_file <- trait %&%"_TF_Binding_b38_chr"%&% chrom %&%"_rank.txt"
+gwas_file <- "/path/to/gwas_file/"
 
 #### II. load data  ######
 # snp_annot_file from GTEx-those variants that rank as top 50k
 # Make different snp_anno_file for 50k,100k...all_snp, contain all the overlapping variants between GTEx and GWAS that column with
-snp_annot <- read.table(snp_annot_file, header = T, stringsAsFactors = F,sep="\t")
+snp_annot <- read.table(snp_annot_file, header = T, stringsAsFactors = F,sep=",")
 snp_annot$chrpos<-snp_annot$chr %&%"_"%&% snp_annot$pos
-gwassnp <- read.table(gwas_file,header=TRUE) ### need to visit for each chr by xingyi guo
+gwassnp <- read.table(gwas_file,header=TRUE) ## contains chr and position columns
 gwas_snp<- gwassnp$chr%&%"_"%&%gwassnp$position
 snp_annot<-snp_annot[snp_annot$chrpos %in% gwas_snp,]
 print(dim(snp_annot))
@@ -49,7 +48,7 @@ get_gene_annotation <- function(gene_annot_file_name, chrom)
 
 get_gene_expression <- function(gene_expression_file_name, gene_annot) {
   #expr_df <- as.data.frame(read.table(gene_expression_file_name, header = T, stringsAsFactors = F, row.names = 1))
-  expr_df <- as.data.frame(read.table(file=gene_expression_file_name,header=FALSE,sep=",",check.names = FALSE))
+  expr_df <- as.data.frame(read.table(file=gene_expression_file_name,header=FALSE,sep="\t",check.names = FALSE))
   col_name=expr_df$V4
   expr_df<- expr_df[,c(-1,-2,-3,-4)]
   expr_df_T = as.data.frame(t(expr_df))
@@ -72,7 +71,7 @@ get_covariance_genotype<-function(covariance_genotype_file) {
   gt_df <- fread(file=covariance_genotype_file,header=T,sep=",")
   gt_df <- as.data.frame(gt_df)
   snp_name<-gt_df$CHR %&%"_" %&%gt_df$LOC
-  gt_df_T<- as.data.frame(t(as.matrix(gt_df[, c(-1,-2,-3)])))
+  gt_df_T<- as.data.frame(t(as.matrix(gt_df[, c(-1,-2)])))
   colnames(gt_df_T) <- snp_name
   gt_df_T
 }
@@ -109,14 +108,6 @@ do_elastic_net <- function(cis_gt, expr_adj, n_folds, cv_fold_ids, n_times, alph
   best_lam_ind <- which.min(avg_cvm)
   best_lambda <- lambda_seq[best_lam_ind]
   out <- list(cv_fit = fits[[1]], min_avg_cvm = min(avg_cvm, na.rm = T), best_lam_ind = best_lam_ind, best_lambda = best_lambda)
-  #  out
-  #},error = function(cond) {
-  #  message('Error')
-  #  message(geterrmessage())
-  #  out <- list()
-  #  out
-  #}
-  #)
   out
 }
 
