@@ -1,6 +1,3 @@
-"$chrom" #from 1 to 22
-Rscript sTF_TWAS.R "$chrom" 100
-
 python Combine_Sum.py 100
 Rscript WriteSQL.R 100
 gzip ./summary/GTEx_100_covariances.txt
