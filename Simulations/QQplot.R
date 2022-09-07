@@ -1,8 +1,3 @@
-args <- commandArgs(trailingOnly=T)
-
-# input matrix
-index<-args[1]
-
 
 qqPlot <- function(pval, truncate = FALSE, ylim=NULL, thinThreshold=NULL, ci=TRUE, ...) 
 {
@@ -67,23 +62,13 @@ qqPlot <- function(pval, truncate = FALSE, ylim=NULL, thinThreshold=NULL, ci=TRU
   abline(0,1,col="red")  
 }
 
-filename=paste("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_SummStat/pheno",index,"/ALL.GRCh38.overlap_GTEx.clean.assoc.logistic",sep="")
+filename=paste("ALL.GRCh38.overlap_GTEx_beta.assoc.logistic",sep="")
 rf<-read.table(file=filename,header = TRUE, sep=",")
 df<-as.data.frame(rf)
 
 pvals <-df$P
 
-#outfile=paste("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_SummStat/pheno",index,"/QQplot.pdf",sep="")
-#pdf(file = outfile,   # The directory you want to save the file in
-#    width = 10, 
-#    height = 8)
-#qqPlot(pvals)
-#qqPlot(pvals, thinThreshold=2)
-#qqPlot(pvals, truncate=TRUE)
-#qqPlot(pvals, truncate=10)
-#dev.off()
-
-figure_name=paste("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_SummStat/pheno",index,"/QQplot.png",sep="")
+figure_name=paste("pheno0.QQ.png",sep="")
 png(figure_name,width=5,height=4,units = 'in', res = 600)
 qqPlot(pvals)
 qqPlot(pvals, thinThreshold=2)
