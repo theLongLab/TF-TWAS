@@ -1,14 +1,13 @@
 import sys
 
-trait=sys.argv[1]
-curr_index=sys.argv[2]
+curr_index=sys.argv[1]
 
-sum_file=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_model_summaries_R0.01.txt",'w')
-we_file=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_weights.txt",'w')
-cov_file=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_covariances.txt",'w')
+sum_file=open("./summary/GTEx_"+curr_index+"_model_summaries_R0.01.txt",'w')
+we_file=open("./summary/GTEx_"+curr_index+"_weights.txt",'w')
+cov_file=open("./summary/GTEx_"+curr_index+"_covariances.txt",'w')
 for chrom in range(1,23):
     curr_chrom=str(chrom)
-    sum_chr=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_chr"+curr_chrom+"_model_summaries.txt")
+    sum_chr=open("./summary/GTEx_"+curr_index+"_chr"+curr_chrom+"_model_summaries.txt")
     head_sum=sum_chr.readline()
     if curr_chrom == "1":
         sum_file.write("gene,genename,pred.perf.R2,n.snps.in.model,pred.perf.pval,pred.perf.qval")
@@ -18,14 +17,14 @@ for chrom in range(1,23):
             if float(line.split("\t")[9].strip())>0.01:
                 sel_gene_list.append(line.split("\t")[0].strip())
                 sum_file.write("\n"+line.split("\t")[0].strip()+","+line.split("\t")[1].strip()+","+line.split("\t")[9].strip()+","+line.split("\t")[6].strip()+","+line.split("\t")[11].strip()+",NA")
-    we_chr=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_chr"+curr_chrom+"_weights.txt")
+    we_chr=open("./summary/GTEx_"+curr_index+"_chr"+curr_chrom+"_weights.txt")
     head_we=we_chr.readline()
     if curr_chrom=="1":
         we_file.write("rsid,gene,weight,ref_allele,eff_allele")
     for line in we_chr:
         if line.split("\t")[0].strip() in sel_gene_list:
             we_file.write("\n"+line.split("\t")[1].strip()+","+line.split("\t")[0].strip()+","+line.split("\t")[5].strip()+","+line.split("\t")[3].strip()+","+line.split("\t")[4].strip())
-    cov_chr=open("/work/long_lab/jingni/project/TF_TWAS/Simulation/Simulation_Revision/Sim_GWAS/Sim_TF/summary/GTEx_Pheno"+trait+"_"+curr_index+"_chr"+curr_chrom+"_covariances.txt")
+    cov_chr=open("./summary/GTEx_"+curr_index+"_chr"+curr_chrom+"_covariances.txt")
     head_cov=cov_chr.readline()
     if curr_chrom=="1":
         cov_file.write("GENE RSID1 RSID2 VALUE")
