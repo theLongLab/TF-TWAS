@@ -2,17 +2,17 @@
 #### 1) Randomly generated the phenotype values (0 or 1) independent of the genotype:
 Random_Pheno.tfam contains randomly generated phenotype values
 
-#### 2) Computed the GWAS summary statistics using the genotype from the 1000 Human Genomes Project and the random traits (0 or 1):
+#### 2) Conducted logistic regression analysis to generate the GWAS summary statistics using the phenotype values and the genotype data from the 1000 Genomes Project:
 gwas_association.cmd
 
 ### Under the Sim_TF/ 
-#### 1) Randomly select 50K variants from the whole genome as TF-occupied variants; Take 100th repeat as an example:
+#### 1) Randomly assigned 50K TF-occupied variants to a value “1” and the remaining variants to a value “0” ; Take 100th repeat as an example:
 python Random_TF.py 100
 
-#### 2) Use the GWAS summary statistics to prioritize TF-occupied regulatory variants. We run the linear mixed model to test the significant of the TF:
+#### 2) We then used generalized mixed models to estimate an association between the Chi-squared values (Y) and TF binding status of genetic variants (see Equation 1 in the manuscript):
 Rscript TFselect.R 100
 
-#### 3) If the p-value of the TF<0.05, we include their corresponding 50K variants as the prioritized TF-occupied regulatory variants to train the elastic net:
+#### 3) We prioritized a set of variants based on the association with cancer risk at P < 0.05. We included their corresponding 50K variants as the prioritized TF-occupied regulatory variants to train the elastic net:
 For each chromsome from 1 to 22, we run below command:
 Rscript sTF_TWAS.R "$chrom" 100
 
