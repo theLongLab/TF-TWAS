@@ -1,7 +1,9 @@
-## Users’ Manual of TF-TWAS
+## Users’ Manual of sTF-TWAS
 
 ## Overview
 Transcriptome-wide association studies (TWAS) have successfully uncovered many putative disease susceptibility genes. However, TWAS may suffer from inaccuracy of gene expression predictions due to inclusion of non-regulatory variants. By integrating prior knowledge of susceptible transcription factor (sTF)-occupied elements, we develop sTF-TWAS and demonstrate that it outperforms existing TWAS approaches in both simulation and real data analyses. Under the sTF-TWAS framework, we build genetic models to predict tissue-specific alternative splicing (sp) and gene expression in normal breast, prostate and lung tissues from the Genotype-Tissue Expression (GTEx) project and applied these models to data from large genome-wide association studies (GWAS) conducted among European-ancestry populations. At Bonferroni-corrected P < 0.05, we identify 354 putative susceptibility genes, including 189 previously unreported in GWAS-identified risk loci and 45 genes (17 for breast; 12 for prostate; and 16 for lung) in novel loci. These findings provide additional insight into the genetic susceptibility of these common cancers. 
+
+!![My Image](Fig1A_B.PNG)
 
 ## Methods
 ### Elastic-Net training: 
