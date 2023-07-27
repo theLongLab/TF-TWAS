@@ -23,10 +23,10 @@ Take the prostate cancer as an example. We prioritized putative regulatory varia
 
 The tissue specific input genotype file ("genotype_file") with the format as below:
 
- CHR,LOC,GTEX-111CU,GTEX-111FC,GTEX-111YS,GTEX-117YW,GTEX-117YX, … … \
- 1,933303,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0, … … \
- 1,933411,1,2,2,2,2,2,2,2,2,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2, … … \
- 1,933653,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0, … … \
+ CHR,LOC,ID-1,ID-2,ID-3,ID-4,ID-5, … … \
+ 1,629906,0,0,0,0,0,0,0,0,1,0, … … \
+ 1,630026,1,0,0,2,1,0,0,0,2,1, … … \
+ 1,778639,0,0,0,0,0,0,0,0,0,0, … … \
  … …
 
 The input genotype file for calculating covariance ("covariance_genotype_file") should be non-tissue specific, with the same format as the tissue specific input genotype file.
@@ -39,8 +39,6 @@ SNP,varID,chr,pos,ref,effect \
 rs1578391,chr1_629906_C_T_b38,1,629906,C,T \
 rs6594029,chr1_630026_C_T_b38,1,630026,C,T \
 rs114983708,chr1_778639_A_G_b38,1,778639,A,G \
-rs71507461,chr1_827209_G_C_b38,1,827209,G,C \
-rs71507462,chr1_827212_C_G_b38,1,827212,C,G \
 … …
 
 
