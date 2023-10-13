@@ -1,0 +1,11 @@
+./SPrediXcan.py \
+--model_db_path GTExv8_50k_nomul_RGTEx.db \
+--covariance Cov_matrix_GTExv8_RGTEx_New.txt.gz \
+--gwas_folder GWAS/ \
+--gwas_file_pattern ".*gz" \
+--snp_column SNP \
+--effect_allele_column A1 \
+--non_effect_allele_column A2 \
+--beta_column BETA \
+--pvalue_column P \
+--output_file twas_50k.csv
